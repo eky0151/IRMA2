@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IrmaProject.Domain\IrmaProject.Domain.csproj" />
+    <ProjectReference Include="..\IrmaProject.Dto\IrmaProject.Dto.csproj" />
+    <ProjectReference Include="..\IrmaProject.Repository.EntityFramework\IrmaProject.Repository.EntityFramework.csproj" />
+  </ItemGroup>
+
+</Project>

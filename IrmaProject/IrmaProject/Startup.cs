@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using IrmaProject.ApplicationService.Interfaces;
 using IrmaProject.ApplicationService;
 using Microsoft.AspNetCore.Rewrite;
+using IrmaProject.Repository.EntityFramework.Interfaces;
+using IrmaProject.Repository.EntityFramework.Repositories;
 
 namespace IrmaProject
 {
@@ -55,6 +57,7 @@ namespace IrmaProject
             });
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

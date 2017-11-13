@@ -7,14 +7,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using IrmaProject.ApplicationService.Interfaces;
+using IrmaProject.Repository.EntityFramework.Interfaces;
 
 namespace IrmaProject.Controllers
 {
     public class AccountController : Controller
     {
         private readonly IUserService userService;
+        private readonly IUserRepository userRepository;
 
-        public AccountController(IUserService userService)
+        public AccountController(IUserService userService, IUserRepository userRepository)
         {
             this.userService = userService;
         }
@@ -26,14 +28,18 @@ namespace IrmaProject.Controllers
 
         public IActionResult LoginFacebook()
         {
-            return Challenge(new AuthenticationProperties { RedirectUri = Url.Action("FacebookLoginCallback", "Account") });
+            var auth = new AuthenticationProperties { RedirectUri = Url.Action("AuthCallback", "Account") };
+            return Challenge(auth, "Facebook");
         }
 
-        public async Task<IActionResult> FacebookLoginCallback()
+        public async Task<IActionResult> AuthCallback()
         {
             var identity = User.Identities.FirstOrDefault(i => i.AuthenticationType == "Facebook" && i.IsAuthenticated);
             if (identity == null)
+            {
+                
                 return Redirect(Url.Action("Login", "Account"));
+            }
             await userService.EnsureUser(identity.Claims.ToList());
             return Redirect(Url.Action("Index", "Home"));
         }

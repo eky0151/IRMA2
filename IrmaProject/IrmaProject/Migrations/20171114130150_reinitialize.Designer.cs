@@ -11,8 +11,8 @@ using System;
 namespace IrmaProject.Migrations
 {
     [DbContext(typeof(PicBookDbContext))]
-    [Migration("20171113222500_initial")]
-    partial class initial
+    [Migration("20171114130150_reinitialize")]
+    partial class reinitialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,8 +30,6 @@ namespace IrmaProject.Migrations
 
                     b.Property<string>("CreatedBy");
 
-                    b.Property<DateTime>("CreatedDate");
-
                     b.Property<bool>("Deleted");
 
                     b.Property<string>("FirstName");
@@ -41,8 +39,6 @@ namespace IrmaProject.Migrations
                     b.Property<string>("MobilNumber");
 
                     b.Property<string>("ModifiedBy");
-
-                    b.Property<DateTime?>("ModifiedDate");
 
                     b.Property<string>("ProfileImageUrl");
 
@@ -64,15 +60,11 @@ namespace IrmaProject.Migrations
 
                     b.Property<string>("CreatedBy");
 
-                    b.Property<DateTime>("CreatedDate");
-
                     b.Property<bool>("Deleted");
 
                     b.Property<string>("Description");
 
                     b.Property<string>("ModifiedBy");
-
-                    b.Property<DateTime?>("ModifiedDate");
 
                     b.Property<string>("Name");
 
@@ -92,15 +84,13 @@ namespace IrmaProject.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("AccountId");
-
                     b.Property<Guid?>("AlbumId");
+
+                    b.Property<Guid>("BlobImageId");
 
                     b.Property<DateTimeOffset>("CreatedAt");
 
                     b.Property<string>("CreatedBy");
-
-                    b.Property<DateTime>("CreatedDate");
 
                     b.Property<bool>("Deleted");
 
@@ -109,8 +99,6 @@ namespace IrmaProject.Migrations
                     b.Property<string>("MobileSizeUrl");
 
                     b.Property<string>("ModifiedBy");
-
-                    b.Property<DateTime?>("ModifiedDate");
 
                     b.Property<string>("Name");
 
@@ -125,8 +113,6 @@ namespace IrmaProject.Migrations
                     b.Property<int?>("Width");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AccountId");
 
                     b.HasIndex("AlbumId");
 
@@ -146,15 +132,11 @@ namespace IrmaProject.Migrations
 
                     b.Property<string>("CreatedBy");
 
-                    b.Property<DateTime>("CreatedDate");
-
                     b.Property<bool>("Deleted");
 
                     b.Property<Guid?>("ImageId");
 
                     b.Property<string>("ModifiedBy");
-
-                    b.Property<DateTime?>("ModifiedDate");
 
                     b.Property<DateTimeOffset>("UpdatedAt");
 
@@ -178,10 +160,6 @@ namespace IrmaProject.Migrations
 
             modelBuilder.Entity("IrmaProject.Domain.Entities.Image", b =>
                 {
-                    b.HasOne("IrmaProject.Domain.Entities.Account", "Account")
-                        .WithMany()
-                        .HasForeignKey("AccountId");
-
                     b.HasOne("IrmaProject.Domain.Entities.Album", "Album")
                         .WithMany("Image")
                         .HasForeignKey("AlbumId");

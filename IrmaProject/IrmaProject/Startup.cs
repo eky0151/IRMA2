@@ -15,6 +15,8 @@ using IrmaProject.ApplicationService;
 using Microsoft.AspNetCore.Rewrite;
 using IrmaProject.Repository.EntityFramework.Interfaces;
 using IrmaProject.Repository.EntityFramework.Repositories;
+using IrmaProject.Repository.AzureStorage.Interfaces;
+using IrmaProject.Repository.AzureStorage.Repositories;
 
 namespace IrmaProject
 {
@@ -57,7 +59,10 @@ namespace IrmaProject
             });
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IImageService, ImageService>();
+
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IImageRepository>(imageRepo => new ImageRepository(Configuration["AzureStorage:ConnectionString"]));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

@@ -44,6 +44,12 @@ namespace IrmaProject.Controllers
             return Redirect(Url.Action("Index", "Home"));
         }
 
+        public async Task<IActionResult> Test()
+        {
+            var temp = HttpContext.Authentication;
+            return View();
+        }
+
         public IActionResult Logout()
         {
             HttpContext.SignOutAsync();

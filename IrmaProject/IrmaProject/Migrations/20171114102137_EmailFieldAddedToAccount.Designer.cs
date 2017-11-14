@@ -11,8 +11,8 @@ using System;
 namespace IrmaProject.Migrations
 {
     [DbContext(typeof(PicBookDbContext))]
-    [Migration("20171113222500_initial")]
-    partial class initial
+    [Migration("20171114102137_EmailFieldAddedToAccount")]
+    partial class EmailFieldAddedToAccount
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,9 +30,11 @@ namespace IrmaProject.Migrations
 
                     b.Property<string>("CreatedBy");
 
-                    b.Property<DateTime>("CreatedDate");
-
                     b.Property<bool>("Deleted");
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("FacebookUserId");
 
                     b.Property<string>("FirstName");
 
@@ -41,8 +43,6 @@ namespace IrmaProject.Migrations
                     b.Property<string>("MobilNumber");
 
                     b.Property<string>("ModifiedBy");
-
-                    b.Property<DateTime?>("ModifiedDate");
 
                     b.Property<string>("ProfileImageUrl");
 

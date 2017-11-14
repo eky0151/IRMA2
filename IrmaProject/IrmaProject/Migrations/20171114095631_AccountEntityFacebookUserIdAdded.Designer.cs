@@ -4,14 +4,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
 namespace IrmaProject.Migrations
 {
     [DbContext(typeof(PicBookDbContext))]
-    partial class PicBookDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171114095631_AccountEntityFacebookUserIdAdded")]
+    partial class AccountEntityFacebookUserIdAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,8 +31,6 @@ namespace IrmaProject.Migrations
                     b.Property<string>("CreatedBy");
 
                     b.Property<bool>("Deleted");
-
-                    b.Property<string>("Email");
 
                     b.Property<string>("FacebookUserId");
 
@@ -61,11 +62,15 @@ namespace IrmaProject.Migrations
 
                     b.Property<string>("CreatedBy");
 
+                    b.Property<DateTime>("CreatedDate");
+
                     b.Property<bool>("Deleted");
 
                     b.Property<string>("Description");
 
                     b.Property<string>("ModifiedBy");
+
+                    b.Property<DateTime?>("ModifiedDate");
 
                     b.Property<string>("Name");
 
@@ -85,13 +90,15 @@ namespace IrmaProject.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("AlbumId");
+                    b.Property<Guid?>("AccountId");
 
-                    b.Property<Guid>("BlobImageId");
+                    b.Property<Guid?>("AlbumId");
 
                     b.Property<DateTimeOffset>("CreatedAt");
 
                     b.Property<string>("CreatedBy");
+
+                    b.Property<DateTime>("CreatedDate");
 
                     b.Property<bool>("Deleted");
 
@@ -100,6 +107,8 @@ namespace IrmaProject.Migrations
                     b.Property<string>("MobileSizeUrl");
 
                     b.Property<string>("ModifiedBy");
+
+                    b.Property<DateTime?>("ModifiedDate");
 
                     b.Property<string>("Name");
 
@@ -114,6 +123,8 @@ namespace IrmaProject.Migrations
                     b.Property<int?>("Width");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
 
                     b.HasIndex("AlbumId");
 
@@ -133,11 +144,15 @@ namespace IrmaProject.Migrations
 
                     b.Property<string>("CreatedBy");
 
+                    b.Property<DateTime>("CreatedDate");
+
                     b.Property<bool>("Deleted");
 
                     b.Property<Guid?>("ImageId");
 
                     b.Property<string>("ModifiedBy");
+
+                    b.Property<DateTime?>("ModifiedDate");
 
                     b.Property<DateTimeOffset>("UpdatedAt");
 
@@ -161,6 +176,10 @@ namespace IrmaProject.Migrations
 
             modelBuilder.Entity("IrmaProject.Domain.Entities.Image", b =>
                 {
+                    b.HasOne("IrmaProject.Domain.Entities.Account", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId");
+
                     b.HasOne("IrmaProject.Domain.Entities.Album", "Album")
                         .WithMany("Image")
                         .HasForeignKey("AlbumId");

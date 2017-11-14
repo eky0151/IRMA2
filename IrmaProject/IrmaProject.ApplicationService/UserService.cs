@@ -1,26 +1,40 @@
 ﻿using IrmaProject.ApplicationService.Interfaces;
+using IrmaProject.Repository.EntityFramework.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 using IrmaProject.Domain.Entities;
-using IrmaProject.Repository.EntityFramework.Repositories;
-using IrmaProject.Repository.EntityFramework.Database;
 
 namespace IrmaProject.ApplicationService
 {
-    public class UserService : UserRepository, IUserService
+    public class UserService : IUserService
     {
-
-        public UserService(PicBookDbContext ctx) : base(ctx)
-        { }
-
-        public Task EnsureUser(IReadOnlyCollection<Claim> claims)
+        private readonly IUserRepository userRepository;
+        public UserService(IUserRepository userRepository)
         {
-            throw new NotImplementedException();
+            this.userRepository = userRepository;
         }
-
-       
+        public async Task EnsureUser(IReadOnlyCollection<Claim> claims)
+        {
+            var userIdentifier = claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+            if(userIdentifier == null)
+            {
+                throw new ArgumentException();
+            }
+            var user = await userRepository.FindByFacebookIdentifier(userIdentifier.Value);
+            if(user == null)
+            {
+                await userRepository.Create(new Account
+                {
+                    FacebookUserId = userIdentifier.Value,
+                    Email = claims.First(x => x.Type == ClaimTypes.Email).Value,
+                    FirstName = claims.First(x => x.Type == ClaimTypes.GivenName).Value,
+                    LastName = claims.First(x => x.Type == ClaimTypes.Surname).Value
+                });
+            }
+        }
     }
 }

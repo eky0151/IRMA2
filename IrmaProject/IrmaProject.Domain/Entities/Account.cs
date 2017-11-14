@@ -7,15 +7,15 @@ namespace IrmaProject.Domain.Entities
 {
     public class Account : Entity
     {
-        public DateTime CreatedDate { get; set; }
+        public string Email { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime? ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public bool Deleted { get; set; }
         public string MobilNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string ProfileImageUrl { get; set; }
+        public string FacebookUserId { get; set; }
 
         public string UserName { get; set; }
 

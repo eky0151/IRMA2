@@ -6,37 +6,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace IrmaProject.Repository.EntityFramework.Repositories
 {
-    public class UserRepository : GenericEfRepository<Account>, IAccountRepository
+    public class UserRepository : GenericCrudRepository<Account>, IUserRepository
     {
-        public UserRepository(PicBookDbContext ctx)
-          : base(ctx)
+        public UserRepository(PicBookDbContext context)
         {
+            Context = context;
         }
 
-        public async Task<string> GetProfilPictureById(Guid id)
+        public async Task<Account> FindByFacebookIdentifier(string userIdentifier)
         {
-          var profil = await GetById(id);
-          return profil.ProfileImageUrl;
+            var users = await FindAll(u => u.FacebookUserId.Equals(userIdentifier));
+            return users.FirstOrDefault();
         }
 
-        public async Task<IReadOnlyCollection<Album>> GetAlbumsByUserId(Guid id)
+        public async Task<Account> FindByIdentifier(Guid userIdendifier)
         {
-          var profil = await GetById(id);
-          return profil.Album.ToList();
-        }
-
-        public async Task<Account> GetUserByName(string username)
-        {
-          return await Context.Set<Account>().FindAsync(username);
-        }
-
-        public override async Task<Account> GetById(Guid id)
-        {
-          return await Context.Set<Account>().FirstOrDefaultAsync(x => x.Id == id);
+            var users = await FindAll(a => a.Id.CompareTo(userIdendifier) == 0);
+            return users.FirstOrDefault();
         }
     }
 }

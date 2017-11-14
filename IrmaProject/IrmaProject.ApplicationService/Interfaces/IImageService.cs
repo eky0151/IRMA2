@@ -8,5 +8,6 @@ namespace IrmaProject.ApplicationService.Interfaces
     public interface IImageService
     {
         Task<Uri> UploadImage(byte[] imageBytes);
+        Task<Guid> CreateAlbumWithUserId(Guid userId, string albumName);
     }
 }

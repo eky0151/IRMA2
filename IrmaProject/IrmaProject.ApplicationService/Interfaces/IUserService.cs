@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IrmaProject.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
@@ -8,6 +9,7 @@ namespace IrmaProject.ApplicationService.Interfaces
 {
     public interface IUserService
     {
-        Task EnsureUser(IReadOnlyCollection<Claim> claims);
+        Task<Guid> EnsureUser(IReadOnlyCollection<Claim> claims);
+        Task<Account> GetAccountByClaimsIdentity(ClaimsPrincipal userClaimsPrincipal);
     }
 }

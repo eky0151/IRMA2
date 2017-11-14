@@ -67,7 +67,7 @@ namespace IrmaProject.Repository.EntityFramework.Repositories
             return await Context.Set<TEntity>().CountAsync(predicate);
         }
 
-        public virtual async Task Create(TEntity entity)
+        public virtual async Task<Guid> Create(TEntity entity)
         {
             if (entity == null)
             {
@@ -77,6 +77,7 @@ namespace IrmaProject.Repository.EntityFramework.Repositories
             Context.Set<TEntity>().Attach(entity);
             Context.Set<TEntity>().Add(entity);
             await Context.SaveChangesAsync();
+            return entity.Id;
         }
 
         public virtual async Task Update(TEntity entity)

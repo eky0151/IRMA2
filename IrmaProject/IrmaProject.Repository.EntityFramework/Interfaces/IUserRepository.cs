@@ -8,7 +8,7 @@ namespace IrmaProject.Repository.EntityFramework.Interfaces
 {
     public interface IUserRepository
     {
-        Task Create(Account entity);
+        Task<Guid> Create(Account entity);
         Task<Account> FindByIdentifier(Guid userIdendifier);
         Task<Account> FindByFacebookIdentifier(string userIdentifier);
     }

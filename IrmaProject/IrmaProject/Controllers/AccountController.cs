@@ -40,14 +40,11 @@ namespace IrmaProject.Controllers
                 
                 return Redirect(Url.Action("Login", "Account"));
             }
-            await userService.EnsureUser(identity.Claims.ToList());
+            var userId = await userService.EnsureUser(identity.Claims.ToList());
+            List<Claim> customClaimList = new List<Claim> { new Claim("UserId", userId.ToString()) };
+            ClaimsIdentity newClaimIdentity = new ClaimsIdentity(customClaimList);
+            User.AddIdentity(newClaimIdentity);
             return Redirect(Url.Action("Index", "Home"));
-        }
-
-        public async Task<IActionResult> Test()
-        {
-            var temp = HttpContext.Authentication;
-            return View();
         }
 
         public IActionResult Logout()

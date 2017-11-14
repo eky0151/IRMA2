@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using IrmaProject.ApplicationService.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using System.Security.Claims;
 
 namespace IrmaProject.Controllers
 {
@@ -14,10 +15,12 @@ namespace IrmaProject.Controllers
     public class ImageController : Controller
     {
         private readonly IImageService imageService;
+        private readonly IUserService userService;
 
-        public ImageController(IImageService imageService)
+        public ImageController(IImageService imageService, IUserService userService)
         {
             this.imageService = imageService;
+            this.userService = userService;
         }
         public IActionResult Index()
         {
@@ -45,8 +48,8 @@ namespace IrmaProject.Controllers
             return Ok(new { count = files.Count, size, uploadedImageUri });
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateAlbum()
+        [HttpPost("CreateAlbum")]
+        public async Task<IActionResult> CreateAlbum(Guid userId)
         {
             return View();
         }

@@ -1,0 +1,59 @@
+﻿@model  IrmaProject.Models.RegistrationModel
+
+<div class="container">
+    <form asp-action="Register" asp-antiforgery="true" class="form-horizontal">
+        <div class="form-group">
+            <label asp-for="FirstName" class="col-sm-2 control-label"></label>
+            <div class="col-sm-4">
+                <input asp-for="FirstName" type="text" class="form-control"  name="firstname" id="inputFirstName" placeholder="First Name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="LastName" class="col-sm-2 control-label"></label>
+            <div class="col-sm-4">
+                <input asp-for="LastName" type="text" class="form-control"  id="inputLastName" name="lastname" placeholder="Last Name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="UserName" class="col-sm-2 control-label"></label>
+            <div class="col-sm-4">
+                <input asp-for="UserName" type="text" class="form-control"  name="username" id="inputUsernName" placeholder="User Name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email" class="col-sm-2 control-label"></label>
+            <div class="col-sm-4">
+                <input asp-for="Email" type="email" class="form-control"  name="email" id="inputEmail" placeholder="Email">
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password" class="col-sm-2 control-label"></label>
+            <div class="col-sm-4">
+                <input asp-for="Password" type="password" class="form-control" name="password" id="inputPassword" placeholder="Password">
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="PasswordAgain" class="col-sm-2 control-label"></label>
+            <div class="col-sm-4">
+                <input asp-for="PasswordAgain" type="password" class="form-control"  name="passwordAgain" id="inputPassword2" placeholder="Password">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="RegirectToLogin" type="checkbox"> Redirect to login page
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default" id="register">Register</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+
+</script>

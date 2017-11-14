@@ -15,21 +15,45 @@ namespace IrmaProject.Controllers
             return View();
         }
 
-        public IActionResult About()
+        [HttpPost]
+        public IActionResult Register(RegistrationModel registrationModel)
         {
-            ViewData["Message"] = "Your application description page.";
+          if (ModelState.IsValid)
+          {
+            if (registrationModel.RegirectToLogin)
+              return RedirectToAction("Login", new { registrationModel.UserName });
+          }
 
             return View();
         }
 
-        public IActionResult Contact()
+        [HttpGet]
+        public IActionResult Register()
+        {
+          ViewData["Message"] = "Your application description page.";
+
+          return View();
+        }
+
+        [HttpGet]
+        [Route("Login/{username}")]
+        public IActionResult Login(string userName)
         {
             ViewData["Message"] = "Your contact page.";
 
             return View();
         }
 
-        public IActionResult Error()
+        [HttpGet]
+        public IActionResult Login()
+        {
+          ViewData["Message"] = "Your contact page.";
+
+          return View();
+        }
+
+
+    public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }

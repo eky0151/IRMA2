@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using IrmaProject.ApplicationService.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using IrmaProject.Models;
 
@@ -10,21 +11,30 @@ namespace IrmaProject.Controllers
 {
     public class HomeController : Controller
     {
+      private readonly IUserService _userService;
+
+      public HomeController(IUserService userService)
+      {
+          _userService = userService;
+      }
         public IActionResult Index()
         {
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Register(RegistrationModel registrationModel)
+      [HttpPost]
+      [ValidateAntiForgeryToken]
+      public IActionResult Register(RegistrationModel registrationModel)
+      {
+        if (ModelState.IsValid)
         {
-          if (ModelState.IsValid)
-          {
-            if (registrationModel.RegirectToLogin)
-              return RedirectToAction("Login", new { registrationModel.UserName });
+          if (registrationModel.RegirectToLogin)
+          { 
+              return RedirectToAction("Login");
           }
+        }
 
-            return View();
+            return View("Error");
         }
 
         [HttpGet]

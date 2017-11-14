@@ -17,6 +17,10 @@ namespace IrmaProject.Domain.Entities
         public string ProfileImageUrl { get; set; }
         public string FacebookUserId { get; set; }
 
+        public string UserName { get; set; }
+
+        public string Email { get; set; }
+
         public ICollection<Album> Album { get; set; }
         public ICollection<Rating> Rating { get; set; }
     }

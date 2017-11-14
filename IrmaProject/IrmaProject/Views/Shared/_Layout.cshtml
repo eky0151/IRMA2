@@ -37,13 +37,16 @@
             </div>
         </div>
     </nav>
-    <div class="container body-content">
+<div class="container body-content">
+    <div class="clearfix">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2017 - PicBook</p>
-        </footer>
     </div>
+  
+    <hr/>
+    <footer>
+        <p>&copy; 2017 - PicBook</p>
+    </footer>
+</div>
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>

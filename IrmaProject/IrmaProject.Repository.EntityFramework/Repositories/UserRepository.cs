@@ -6,24 +6,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace IrmaProject.Repository.EntityFramework.Repositories
 {
-    public class UserRepository : GenericCrudRepository<Account>, IUserRepository
+    public class UserRepository : GenericEfRepository<Account>, IAccountRepository
     {
-        public UserRepository(PicBookDbContext context)
+        public UserRepository(PicBookDbContext ctx)
+          : base(ctx)
         {
-            Context = context;
-        }
-        public Task Create(Account entity)
-        {
-            throw new NotImplementedException();
         }
 
-        public async Task<Account> FindByIdentifier(Guid userIdendifier)
+        public async Task<string> GetProfilPictureById(Guid id)
         {
-            var users = await FindAll(a => a.Id.CompareTo(userIdendifier) == 0);
-            return users.FirstOrDefault();
+          var profil = await GetById(id);
+          return profil.ProfileImageUrl;
+        }
+
+        public async Task<IReadOnlyCollection<Album>> GetAlbumsByUserId(Guid id)
+        {
+          var profil = await GetById(id);
+          return profil.Album.ToList();
+        }
+
+        public async Task<Account> GetUserByName(string username)
+        {
+          return await Context.Set<Account>().FindAsync(username);
+        }
+
+        public override async Task<Account> GetById(Guid id)
+        {
+          return await Context.Set<Account>().FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }

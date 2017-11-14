@@ -1,42 +1,48 @@
 ﻿@model  IrmaProject.Models.RegistrationModel
 
-<div class="container">
+<div class="center-form container">
     <form asp-action="Register" asp-antiforgery="true" class="form-horizontal">
         <div class="form-group">
             <label asp-for="FirstName" class="col-sm-2 control-label"></label>
             <div class="col-sm-4">
                 <input asp-for="FirstName" type="text" class="form-control"  name="firstname" id="inputFirstName" placeholder="First Name">
             </div>
+            <span asp-validation-for="FirstName"></span>
         </div>
         <div class="form-group">
             <label asp-for="LastName" class="col-sm-2 control-label"></label>
             <div class="col-sm-4">
                 <input asp-for="LastName" type="text" class="form-control"  id="inputLastName" name="lastname" placeholder="Last Name">
             </div>
+            <span asp-validation-for="LastName"></span>
         </div>
         <div class="form-group">
             <label asp-for="UserName" class="col-sm-2 control-label"></label>
             <div class="col-sm-4">
                 <input asp-for="UserName" type="text" class="form-control"  name="username" id="inputUsernName" placeholder="User Name">
             </div>
+            <span asp-validation-for="UserName"></span>
         </div>
         <div class="form-group">
             <label asp-for="Email" class="col-sm-2 control-label"></label>
             <div class="col-sm-4">
                 <input asp-for="Email" type="email" class="form-control"  name="email" id="inputEmail" placeholder="Email">
             </div>
+            <span asp-validation-for="Email"></span>
         </div>
         <div class="form-group">
             <label asp-for="Password" class="col-sm-2 control-label"></label>
             <div class="col-sm-4">
                 <input asp-for="Password" type="password" class="form-control" name="password" id="inputPassword" placeholder="Password">
             </div>
+            <span asp-validation-for="Password"></span>
         </div>
         <div class="form-group">
             <label asp-for="PasswordAgain" class="col-sm-2 control-label"></label>
             <div class="col-sm-4">
                 <input asp-for="PasswordAgain" type="password" class="form-control"  name="passwordAgain" id="inputPassword2" placeholder="Password">
             </div>
+            <span asp-validation-for="PasswordAgain"></span>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
@@ -54,6 +60,11 @@
         </div>
     </form>
 </div>
-<script type="text/javascript">
 
-</script>
+<style> 
+    .center-form{
+        margin: 0 auto;
+        width: 80%;
+        margin-top: 20px;
+    }
+</style>

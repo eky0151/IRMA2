@@ -26,14 +26,14 @@ namespace IrmaProject.Repository.EntityFramework.Repositories
 
         public abstract Task<TEntity> GetById(Guid id);
 
-        public virtual async Task<int> Count(Expression<Func<TEntity, bool>> predicate)
+        public  async Task<int> Count(Expression<Func<TEntity, bool>> predicate)
         {
           return predicate == null
             ? throw new ArgumentNullException(nameof(predicate))
             : await Context.Set<TEntity>().CountAsync(predicate);
         }
 
-        public virtual async Task Create(TEntity entity)
+        public  async Task Create(TEntity entity)
         {
           if (entity == null)  throw new ArgumentNullException(nameof(entity));
 
@@ -42,7 +42,7 @@ namespace IrmaProject.Repository.EntityFramework.Repositories
           await Context.SaveChangesAsync();
         }
 
-        public virtual async Task Update(TEntity entity)
+        public  async Task Update(TEntity entity)
         {
           if (entity == null) throw new ArgumentNullException(nameof(entity));
 

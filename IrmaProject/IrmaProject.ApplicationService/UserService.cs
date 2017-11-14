@@ -54,5 +54,20 @@ namespace IrmaProject.ApplicationService
             }
             throw new ArgumentException();
         }
+
+          public async Task<Account> GetUserByName(string username)
+          {
+            throw new NotImplementedException();
+          }
+
+          public async Task<string> GetProfilPictureById(Guid id)
+          {
+            throw new NotImplementedException();
+          }
+
+          public async Task<IReadOnlyCollection<Album>> GetAlbumsByUserId(Guid id)
+          {
+            throw new NotImplementedException();
+          }
     }
 }

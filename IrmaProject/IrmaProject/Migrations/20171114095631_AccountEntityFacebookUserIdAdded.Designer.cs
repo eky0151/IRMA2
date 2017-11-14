@@ -11,9 +11,10 @@ using System;
 namespace IrmaProject.Migrations
 {
     [DbContext(typeof(PicBookDbContext))]
-    partial class PicBookDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171114095631_AccountEntityFacebookUserIdAdded")]
+    partial class AccountEntityFacebookUserIdAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,8 +31,6 @@ namespace IrmaProject.Migrations
                     b.Property<string>("CreatedBy");
 
                     b.Property<bool>("Deleted");
-
-                    b.Property<string>("Email");
 
                     b.Property<string>("FacebookUserId");
 

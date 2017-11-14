@@ -10,5 +10,6 @@ namespace IrmaProject.Repository.EntityFramework.Interfaces
     {
         Task Create(Account entity);
         Task<Account> FindByIdentifier(Guid userIdendifier);
+        Task<Account> FindByFacebookIdentifier(string userIdentifier);
     }
 }

@@ -31,8 +31,27 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Register">Register</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Login">Login</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-area="" asp-controller="Image" asp-action="Index">My pictures</a></li>
+                    }
+                </ul>
+                <ul class="nav navbar-nav pull-right">
+                    @{  var userClaim = User.Claims.FirstOrDefault(c => c.Type.Contains("givenname"));
+                        var userName = userClaim == null ? "Anonymous" : userClaim.Value;
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li><a>Hey, @userName</a></li>
+                            <li><a href="/Account/Logout">Logout</a></li>
+                        }
+                        else
+                        {
+                            <li><a asp-area="" asp-controller="Account" asp-action="Login">Login (Facebook)</a></li>
+                        }
+                    }
                 </ul>
             </div>
         </div>
@@ -41,7 +60,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2017 - PicBook</p>
+            <p>&copy; 2017 - PicBook.Web</p>
         </footer>
     </div>
 

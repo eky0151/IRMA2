@@ -11,9 +11,10 @@ using System;
 namespace IrmaProject.Migrations
 {
     [DbContext(typeof(PicBookDbContext))]
-    partial class PicBookDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171114102137_EmailFieldAddedToAccount")]
+    partial class EmailFieldAddedToAccount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -15,9 +15,11 @@ namespace IrmaProject.Repository.EntityFramework.Repositories
         {
             Context = context;
         }
-        public Task Create(Account entity)
+
+        public async Task<Account> FindByFacebookIdentifier(string userIdentifier)
         {
-            throw new NotImplementedException();
+            var users = await FindAll(u => u.FacebookUserId.Equals(userIdentifier));
+            return users.FirstOrDefault();
         }
 
         public async Task<Account> FindByIdentifier(Guid userIdendifier)

@@ -12,13 +12,17 @@ namespace IrmaProject.ApplicationService
 {
     public class ImageService : IImageService
     {
-        private readonly IImageRepository imageRepository;
+        private readonly IAzureStorageImageRepository azureImageRepository;
+        private readonly IDbImageRepository databaseImageRepository;
         private readonly IUserRepository userRepository;
+        private readonly IAlbumRepository albumRepository;
 
-        public ImageService(IImageRepository imageRepository, IUserRepository userRepository)
+        public ImageService(IAzureStorageImageRepository azureImageRepository, IUserRepository userRepository, IDbImageRepository databaseImageRepository, IAlbumRepository albumRepository)
         {
-            this.imageRepository = imageRepository;
+            this.azureImageRepository = azureImageRepository;
             this.userRepository = userRepository;
+            this.databaseImageRepository = databaseImageRepository;
+            this.albumRepository = albumRepository;
         }
 
         public async Task<Guid> CreateAlbumWithUserId(Guid userId, string albumName)
@@ -29,13 +33,29 @@ namespace IrmaProject.ApplicationService
                 Account = account,
                 Name = albumName
             };
-            imageRepository.cre
+            return await albumRepository.CreateAlbum(newAlbum);
         }
 
-        public async Task<Uri> UploadImage(byte[] imageBytes)
+        public async Task<Album> FindAlbumById(Guid albumId)
         {
-            ImageUploadResult result = await imageRepository.UploadImage(imageBytes);
-            await imageRepository.EnqueueWorkItem(result.ImageId);
+            var album = await albumRepository.GetAlbumById(albumId);
+            if(album == null)
+            {
+                throw new ArgumentException();
+            }
+            return album;
+        }
+
+        public async Task<IEnumerable<Album>> GetAlbumsByUserId(Guid userId)
+        {
+            return await albumRepository.GetAlbumsByAccountId(userId);
+        }
+
+        public async Task<Uri> UploadImage(Guid albumId, byte[] imageBytes)
+        {
+            ImageUploadResult result = await azureImageRepository.UploadImage(imageBytes);
+
+            await azureImageRepository.EnqueueWorkItem(result.ImageId);
             return result.ImageUri;
         }
     }

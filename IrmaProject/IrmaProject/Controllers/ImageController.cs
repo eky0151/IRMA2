@@ -8,6 +8,8 @@ using IrmaProject.ApplicationService.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Security.Claims;
+using IrmaProject.Common.Constant;
+using IrmaProject.Models;
 
 namespace IrmaProject.Controllers
 {
@@ -28,8 +30,9 @@ namespace IrmaProject.Controllers
         }
 
         [HttpPost("Upload")]
-        public async Task<IActionResult> Upload(List<IFormFile> files)
+        public async Task<IActionResult> Upload(Guid albumId, List<IFormFile> files)
         {
+            var album = await imageService.FindAlbumById(albumId);
             Uri uploadedImageUri = null;
             long size = files.Sum(f => f.Length);
 
@@ -40,7 +43,7 @@ namespace IrmaProject.Controllers
                     using (var ms = new MemoryStream())
                     {
                         formFile.CopyTo(ms);
-                        uploadedImageUri = await imageService.UploadImage(ms.ToArray());
+                        uploadedImageUri = await imageService.UploadImage(album.Id, ms.ToArray());
                     }
                 }
             }

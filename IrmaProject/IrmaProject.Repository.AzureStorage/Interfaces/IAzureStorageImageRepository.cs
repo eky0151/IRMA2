@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IrmaProject.Repository.AzureStorage.Interfaces
 {
-    public interface IImageRepository
+    public interface IAzureStorageImageRepository
     {
         Task<ImageUploadResult> UploadImage(byte[] imageBytes);
         Task EnqueueWorkItem(Guid imageId);

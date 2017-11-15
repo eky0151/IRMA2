@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IrmaProject.Common\IrmaProject.Common.csproj" />
     <ProjectReference Include="..\IrmaProject.Domain\IrmaProject.Domain.csproj" />
   </ItemGroup>
 

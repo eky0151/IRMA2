@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using IrmaProject.Common.Constant;
 
 namespace IrmaProject.Repository.EntityFramework.Repositories
 {
@@ -16,22 +17,39 @@ namespace IrmaProject.Repository.EntityFramework.Repositories
           {
           }
 
+        public async Task<Guid> CreateUser(Account account)
+        {
+            await Create(account);
+            return account.Id;
+        }
 
         public async Task<Account> FindByFacebookIdentifier(string userIdentifier)
         {
-            var users = await FindAll(u => u.FacebookUserId.Equals(userIdentifier));
+            var users = await GetByFilter(u => u.FacebookUserId.Equals(userIdentifier));
+            if (users.Count() == 0)
+                return null;
             return users.FirstOrDefault();
         }
 
         public async Task<Account> FindByIdentifier(Guid userIdendifier)
         {
-            var users = await FindAll(a => a.Id.CompareTo(userIdendifier) == 0);
-            return users.FirstOrDefault();
+            var user = await GetById(userIdendifier);
+            if (user == null)
+                throw new ArgumentException();
+            return user;
         }
 
-        public override async Task<Account> GetById(Guid id)
+        public async Task<Account> FindByName(string userName)
         {
-              return await Context.Set<Account>().FirstOrDefaultAsync(x => x.Id == id);
-    }
+            var users = await GetByFilter(x => x.Name.Equals(userName));
+            if (users.Count() == 0)
+                throw new ArgumentException();
+            return users.First();
+        }
+
+        public async Task<string> GetProfilePictureById(Guid accountId, string pictureSizeType)
+        {
+            return (await FindByIdentifier(accountId)).ProfileImageUrl + pictureSizeType;
+        }
     }
 }

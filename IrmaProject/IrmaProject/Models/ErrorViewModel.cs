@@ -2,7 +2,7 @@ using System;
 
 namespace IrmaProject.Models
 {
-    public class ErrorViewModel
+    public class ErrorViewModel: LayoutViewModel
     {
         public string RequestId { get; set; }
 

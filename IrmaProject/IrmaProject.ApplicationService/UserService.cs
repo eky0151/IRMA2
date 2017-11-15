@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using IrmaProject.Domain.Entities;
+using IrmaProject.Common.Constant;
 
 namespace IrmaProject.ApplicationService
 {
@@ -27,19 +28,21 @@ namespace IrmaProject.ApplicationService
             var user = await userRepository.FindByFacebookIdentifier(userIdentifier.Value);
             if(user == null)
             {
-                var newUserId = await userRepository.Create(new Account
+                var newUserId = await userRepository.CreateUser(new Account
                 {
                     FacebookUserId = userIdentifier.Value,
                     Email = claims.First(x => x.Type == ClaimTypes.Email).Value,
+                    Name = claims.First(x => x.Type == ClaimTypes.Name).Value,
                     FirstName = claims.First(x => x.Type == ClaimTypes.GivenName).Value,
-                    LastName = claims.First(x => x.Type == ClaimTypes.Surname).Value
+                    LastName = claims.First(x => x.Type == ClaimTypes.Surname).Value,
+                    ProfileImageUrl = @"https://graph.facebook.com/"+userIdentifier.Value+@"/picture"
                 });
                 return newUserId;
             }
             return user.Id;
         }
 
-        public async Task<Account> GetAccountByClaimsIdentity(ClaimsPrincipal userClaimsPrincipal)
+        public Account GetAccountByClaimsPrincipal(ClaimsPrincipal userClaimsPrincipal)
         {
             var identity = userClaimsPrincipal.Identities.FirstOrDefault(i => i.AuthenticationType == "Facebook" && i.IsAuthenticated);
             if (identity == null)
@@ -47,27 +50,23 @@ namespace IrmaProject.ApplicationService
                 throw new ArgumentException();
             }
             var facebookId = identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            var user = await userRepository.FindByFacebookIdentifier(facebookId);
-            if(user != null)
+            var user = userRepository.FindByFacebookIdentifier(facebookId).Result;
+            if(user == null)
             {
-                return user;
+                throw new ArgumentException();
             }
-            throw new ArgumentException();
+            return user;
         }
 
           public async Task<Account> GetUserByName(string username)
           {
-            throw new NotImplementedException();
+            return await userRepository.FindByName(username);
           }
 
-          public async Task<string> GetProfilPictureById(Guid id)
+          public string GetProfilPictureById(Guid id, string sizeType)
           {
-            throw new NotImplementedException();
-          }
-
-          public async Task<IReadOnlyCollection<Album>> GetAlbumsByUserId(Guid id)
-          {
-            throw new NotImplementedException();
+            var pictureUrl = userRepository.GetProfilePictureById(id, sizeType).Result;
+            return pictureUrl;
           }
     }
 }

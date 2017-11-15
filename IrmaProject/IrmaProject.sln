@@ -1,19 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2008
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrmaProject", "IrmaProject\IrmaProject.csproj", "{2DA891C1-CE65-49FC-B28F-179F7720C749}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IrmaProject", "IrmaProject\IrmaProject.csproj", "{2DA891C1-CE65-49FC-B28F-179F7720C749}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrmaProject.ApplicationService", "IrmaProject.ApplicationService\IrmaProject.ApplicationService.csproj", "{64F27540-F3F4-4E06-A6DD-4E453B9C90B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IrmaProject.ApplicationService", "IrmaProject.ApplicationService\IrmaProject.ApplicationService.csproj", "{64F27540-F3F4-4E06-A6DD-4E453B9C90B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrmaProject.Domain", "IrmaProject.Domain\IrmaProject.Domain.csproj", "{596F8B6F-0C8E-4EF9-9F70-B030EFBD9FFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IrmaProject.Domain", "IrmaProject.Domain\IrmaProject.Domain.csproj", "{596F8B6F-0C8E-4EF9-9F70-B030EFBD9FFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrmaProject.Dto", "IrmaProject.Dto\IrmaProject.Dto.csproj", "{8618F9F9-A4CF-4992-A76D-A0D90F87AF98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IrmaProject.Dto", "IrmaProject.Dto\IrmaProject.Dto.csproj", "{8618F9F9-A4CF-4992-A76D-A0D90F87AF98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrmaProject.Repository.EntityFramework", "IrmaProject.Repository.EntityFramework\IrmaProject.Repository.EntityFramework.csproj", "{C5EF2AE5-1426-4F81-B996-5BA08CA9FA27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IrmaProject.Repository.EntityFramework", "IrmaProject.Repository.EntityFramework\IrmaProject.Repository.EntityFramework.csproj", "{C5EF2AE5-1426-4F81-B996-5BA08CA9FA27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrmaProject.Repository.AzureStorage", "IrmaProject.Repository.AzureStorage\IrmaProject.Repository.AzureStorage.csproj", "{92D13CC7-277F-48A5-944D-63D842496EAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IrmaProject.Repository.AzureStorage", "IrmaProject.Repository.AzureStorage\IrmaProject.Repository.AzureStorage.csproj", "{92D13CC7-277F-48A5-944D-63D842496EAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrmaProject.Common", "IrmaProject.Common\IrmaProject.Common.csproj", "{03E1D719-4290-4679-97DA-EAF660EC6DA3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{92D13CC7-277F-48A5-944D-63D842496EAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92D13CC7-277F-48A5-944D-63D842496EAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92D13CC7-277F-48A5-944D-63D842496EAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03E1D719-4290-4679-97DA-EAF660EC6DA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03E1D719-4290-4679-97DA-EAF660EC6DA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03E1D719-4290-4679-97DA-EAF660EC6DA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03E1D719-4290-4679-97DA-EAF660EC6DA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

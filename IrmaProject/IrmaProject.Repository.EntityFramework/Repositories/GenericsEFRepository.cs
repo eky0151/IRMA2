@@ -1,4 +1,5 @@
-﻿using IrmaProject.Domain.Interfaces;
+﻿using IrmaProject.Domain.Entities.Generic;
+using IrmaProject.Domain.Interfaces;
 using IrmaProject.Repository.EntityFramework.Database;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -24,7 +25,10 @@ namespace IrmaProject.Repository.EntityFramework.Repositories
             return await Context.Set<TEntity>().ToListAsync();
         }
 
-        public abstract Task<TEntity> GetById(Guid id);
+        public async Task<TEntity> GetById(Guid id)
+        {
+            return await Context.Set<TEntity>().FirstOrDefaultAsync(x => (x as Entity).Id.Equals(id));
+        }
 
         public  async Task<int> Count(Expression<Func<TEntity, bool>> predicate)
         {

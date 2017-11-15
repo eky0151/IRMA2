@@ -62,7 +62,9 @@ namespace IrmaProject
             services.AddScoped<IImageService, ImageService>();
 
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IImageRepository>(imageRepo => new ImageRepository(Configuration["AzureStorage:ConnectionString"]));
+            services.AddScoped<IAzureStorageImageRepository>(imageRepo => new AzureStorageImageRepository(Configuration["AzureStorage:ConnectionString"]));
+            services.AddScoped<IDbImageRepository, DbImageRepository>();
+            services.AddScoped<IAlbumRepository, AlbumRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

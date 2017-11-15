@@ -1,4 +1,5 @@
-﻿using IrmaProject.Domain.Entities;
+﻿using IrmaProject.Common.Constant;
+using IrmaProject.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,8 +9,10 @@ namespace IrmaProject.Repository.EntityFramework.Interfaces
 {
     public interface IUserRepository
     {
-        Task<Guid> Create(Account entity);
         Task<Account> FindByIdentifier(Guid userIdendifier);
         Task<Account> FindByFacebookIdentifier(string userIdentifier);
+        Task<Account> FindByName(string userName);
+        Task<string> GetProfilePictureById(Guid accountId, string pictureSizeType);
+        Task<Guid> CreateUser(Account account);
     }
 }

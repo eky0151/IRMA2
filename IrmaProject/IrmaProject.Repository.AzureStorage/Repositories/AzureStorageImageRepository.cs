@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace IrmaProject.Repository.AzureStorage.Repositories
 {
-    public class ImageRepository : IImageRepository
+    public class AzureStorageImageRepository : IAzureStorageImageRepository
     {
         private CloudStorageAccount storageAccount;
 
-        public ImageRepository(string storageConnString)
+        public AzureStorageImageRepository(string storageConnString)
         {
             storageAccount = CloudStorageAccount.Parse(storageConnString);
         }

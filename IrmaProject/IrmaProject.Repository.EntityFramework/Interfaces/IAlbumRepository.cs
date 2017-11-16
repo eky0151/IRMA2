@@ -10,6 +10,7 @@ namespace IrmaProject.Repository.EntityFramework.Interfaces
     {
         Task<Guid> CreateAlbum(Album album);
         Task<Album> GetAlbumById(Guid albumId);
+        Task<Album> GetAlbumByName(string name);
         Task<IEnumerable<Album>> GetAlbumsByAccountId(Guid accountId);
     }
 }

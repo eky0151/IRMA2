@@ -37,9 +37,9 @@ namespace IrmaProject.Controllers
             var identity = User.Identities.FirstOrDefault(i => i.AuthenticationType == "Facebook" && i.IsAuthenticated);
             if (identity == null)
             {
-                
                 return Redirect(Url.Action("Login", "Account"));
             }
+           
             var userId = await userService.EnsureUser(identity.Claims.ToList());
             List<Claim> customClaimList = new List<Claim> { new Claim("UserId", userId.ToString()) };
             ClaimsIdentity newClaimIdentity = new ClaimsIdentity(customClaimList);

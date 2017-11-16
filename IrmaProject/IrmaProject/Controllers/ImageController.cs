@@ -29,8 +29,8 @@ namespace IrmaProject.Controllers
             return View();
         }
 
-        [HttpPost("Upload")]
-        public async Task<IActionResult> Upload(Guid albumId, List<IFormFile> files)
+        [HttpPost("UploadMore")]
+        public async Task<IActionResult> UploadMore(Guid albumId, List<IFormFile> files, string imageName)
         {
             var album = await imageService.FindAlbumById(albumId);
             Uri uploadedImageUri = null;
@@ -51,16 +51,64 @@ namespace IrmaProject.Controllers
             return Ok(new { count = files.Count, size, uploadedImageUri });
         }
 
-        [HttpPost("CreateAlbum")]
-        public async Task<IActionResult> CreateAlbum(Guid userId)
+        [HttpPost("Upload")]
+        public async Task<IActionResult> Upload(Guid albumId, IFormFile file, string imageName)
         {
-            return View();
+            var album = await imageService.FindAlbumById(albumId);
+            Uri uploadedImageUri = null;
+            long size = file.Length;
+            if (file.Length > 0)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    file.CopyTo(ms);
+                    uploadedImageUri = await imageService.UploadImage(album.Id, ms.ToArray());
+                }
+            }
+            var userNameClaim = User.Claims.FirstOrDefault(c => c.Type.Contains("email"));
+            //return Ok(new { count = files.Count, size, uploadedImageUri });
+            return RedirectToAction("Album", new { username = userNameClaim.Value, albumname = album.Name });
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAlbum(int id)
+        [Route("{username}/Album/{albumname}")]
+        public async Task<IActionResult> Album(string username, string albumname)
         {
-            //ImageService where AlbumId == id
+            var images = await imageService.GetImagesByAlbumName(albumname);
+            ShowImagesViewModel viewModel = new ShowImagesViewModel();
+            viewModel.Images = images.Select(x => new ImageViewModel()
+            {
+                Name = x.Name,
+                UploadedAt = x.CreatedAt.DateTime.ToLongDateString(),
+                Url = x.WebSizeUrl,
+                Width = "50",
+                Height = "50"
+            });
+            viewModel.AlbumId = (await imageService.FindAlbumByName(albumname)).Id.ToString();
+            return View(viewModel);
+        }
+
+        [HttpGet]
+        [Route("{username}/Albums")]
+        public async Task<IActionResult> Albums(string username)
+        {
+            var albums = await imageService.GetAlbumsByUsername(username);
+            var albumsFilesCount = await imageService.GetAlbumsFilesCountByIds(albums.Select(x => x.Id));
+            ShowAlbumsViewModel viewModel = new ShowAlbumsViewModel();
+            viewModel.Albums = albums.Select(x => new AlbumViewModel()
+            {
+                CreatedAt = x.CreatedAt.DateTime.ToLongDateString(),
+                Description = x.Description,
+                ModifiedAt = x.UpdatedAt == null ? "" : x.UpdatedAt.Value.DateTime.ToLongDateString(),
+                Name = x.Name,
+                FilesCount = albumsFilesCount.FirstOrDefault(y => y.Key.Equals(x.Id)).Value
+            });
+            return View(viewModel);
+        }
+
+        [HttpPost("CreateAlbum")]
+        public async Task<IActionResult> CreateAlbum(Guid userId)
+        {
             return View();
         }
     }

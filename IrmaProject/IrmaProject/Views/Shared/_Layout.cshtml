@@ -32,27 +32,32 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    @if (!User.Identity.IsAuthenticated)
-                    {
-                    <li><a asp-area="" asp-controller="Home" asp-action="Register">Register</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Login">Login</a></li>
-                    }
-                    else
-                    {
-                        <li><a asp-area="" asp-controller="Image" asp-action="Index">My pictures</a></li>
+                    @{ 
+                        var userNameClaim = User.Claims.FirstOrDefault(c => c.Type.Contains("email"));
+                        var albumsAction = userNameClaim == null ? "Index" : "Albums";
+
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                        <li><a asp-area="" asp-controller="Home" asp-action="Register">Register</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Login">Login</a></li>
+                        }
+                        else
+                        {
+                            <li><a asp-area="" asp-controller="Image" asp-action="Index">My pictures</a></li>
+                            <li><a asp-controller="Image" asp-action="@albumsAction" asp-route-username ="@userNameClaim.Value.Replace('@', '_').Replace('.', '_')">My albums</a></li>
+                        }
                     }
                 </ul>
                 <ul class="nav navbar-nav pull-right">
                     @{  var userClaim = User.Claims.FirstOrDefault(c => c.Type.Contains("givenname"));
                         var userProfileImageClaim = User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier"));
-                        var userName = userClaim == null ? "Anonymous" : userClaim.Value;
+                        var userGivenName = userClaim == null ? "Anonymous" : userClaim.Value;
                         var userProfileImage = userProfileImageClaim == null ? "" : "https://graph.facebook.com/" +userProfileImageClaim.Value +"/picture?type=small";
-
                         @if (User.Identity.IsAuthenticated)
                         {
                              <li><img src="@userProfileImage" /></li>
-                            <li><a>Hey, @userName</a></li>
+                            <li><a>Hey, @userGivenName</a></li>
                             <li><a href="/Account/Logout">Logout</a></li>
                         }
                         else

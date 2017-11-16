@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace IrmaProject.Models
 {
-    public class RegistrationModel
+    public class RegistrationModel: LayoutViewModel
     {
         [DisplayName("First name")]
         [Required]

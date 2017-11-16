@@ -22,8 +22,10 @@ namespace IrmaProject.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MobilNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProfileImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -38,11 +40,11 @@ namespace IrmaProject.Migrations
                     AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false),
+                    Deleted = table.Column<bool>(type: "bit", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     Url = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -72,7 +74,7 @@ namespace IrmaProject.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OriginalSizeUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Public = table.Column<bool>(type: "bit", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     WebSizeUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Width = table.Column<int>(type: "int", nullable: true)
                 },
@@ -99,7 +101,7 @@ namespace IrmaProject.Migrations
                     Deleted = table.Column<bool>(type: "bit", nullable: false),
                     ImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     Value = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>

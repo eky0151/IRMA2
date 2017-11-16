@@ -11,8 +11,8 @@ using System;
 namespace IrmaProject.Migrations
 {
     [DbContext(typeof(PicBookDbContext))]
-    [Migration("20171115194529_NameAddedToAccountEntity")]
-    partial class NameAddedToAccountEntity
+    [Migration("20171115234743_reinitialize")]
+    partial class reinitialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,7 +48,9 @@ namespace IrmaProject.Migrations
 
                     b.Property<string>("ProfileImageUrl");
 
-                    b.Property<DateTimeOffset>("UpdatedAt");
+                    b.Property<DateTimeOffset?>("UpdatedAt");
+
+                    b.Property<string>("Username");
 
                     b.HasKey("Id");
 
@@ -66,7 +68,7 @@ namespace IrmaProject.Migrations
 
                     b.Property<string>("CreatedBy");
 
-                    b.Property<bool>("Deleted");
+                    b.Property<bool?>("Deleted");
 
                     b.Property<string>("Description");
 
@@ -74,7 +76,7 @@ namespace IrmaProject.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<DateTimeOffset>("UpdatedAt");
+                    b.Property<DateTimeOffset?>("UpdatedAt");
 
                     b.Property<string>("Url");
 
@@ -112,7 +114,7 @@ namespace IrmaProject.Migrations
 
                     b.Property<bool>("Public");
 
-                    b.Property<DateTimeOffset>("UpdatedAt");
+                    b.Property<DateTimeOffset?>("UpdatedAt");
 
                     b.Property<string>("WebSizeUrl");
 
@@ -144,7 +146,7 @@ namespace IrmaProject.Migrations
 
                     b.Property<string>("ModifiedBy");
 
-                    b.Property<DateTimeOffset>("UpdatedAt");
+                    b.Property<DateTimeOffset?>("UpdatedAt");
 
                     b.Property<double>("Value");
 

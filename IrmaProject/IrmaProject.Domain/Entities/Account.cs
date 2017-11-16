@@ -7,6 +7,7 @@ namespace IrmaProject.Domain.Entities
 {
     public class Account : Entity
     {
+        public string Username { get; set; }
         public string Email { get; set; }
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }

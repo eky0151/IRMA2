@@ -30,6 +30,7 @@ namespace IrmaProject.ApplicationService
             {
                 var newUserId = await userRepository.CreateUser(new Account
                 {
+                    Username = claims.First(x => x.Type == ClaimTypes.Email).Value.Replace('@','_').Replace('.','_'),
                     FacebookUserId = userIdentifier.Value,
                     Email = claims.First(x => x.Type == ClaimTypes.Email).Value,
                     Name = claims.First(x => x.Type == ClaimTypes.Name).Value,

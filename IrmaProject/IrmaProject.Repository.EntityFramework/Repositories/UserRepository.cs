@@ -39,9 +39,17 @@ namespace IrmaProject.Repository.EntityFramework.Repositories
             return user;
         }
 
-        public async Task<Account> FindByName(string userName)
+        public async Task<Account> FindByName(string name)
         {
-            var users = await GetByFilter(x => x.Name.Equals(userName));
+            var users = await GetByFilter(x => x.Name.Equals(name));
+            if (users.Count() == 0)
+                throw new ArgumentException();
+            return users.First();
+        }
+
+        public async Task<Account> FindByUserName(string userName)
+        {
+            var users = await GetByFilter(x => x.Username.Equals(userName));
             if (users.Count() == 0)
                 throw new ArgumentException();
             return users.First();

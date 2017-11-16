@@ -20,5 +20,18 @@ namespace IrmaProject.Repository.EntityFramework.Repositories
             await Create(image);
             return image.Id;
         }
+
+        public async Task<IEnumerable<Guid>> GetImageIdsByAlbumId(Guid albumId)
+        {
+            var imageIds = (await FindAll(x => x.Album.Id.Equals(albumId))).Select(x => x.Id);
+            return imageIds;
+
+        }
+
+        public async Task<IEnumerable<Image>> GetImagesByAlbumId(Guid albumId)
+        {
+            var images = (await FindAll(x => x.Album.Id.Equals(albumId)));
+            return images;
+        }
     }
 }

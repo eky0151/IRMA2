@@ -18,6 +18,6 @@ namespace IrmaProject.Domain.Entities.Generic
 
         public DateTimeOffset CreatedAt { get; internal set; }
 
-        public DateTimeOffset UpdatedAt { get; internal set; }
+        public DateTimeOffset? UpdatedAt { get; internal set; }
     }
 }

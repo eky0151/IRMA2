@@ -40,7 +40,7 @@ namespace IrmaProject.Repository.AzureStorage.Repositories
             // TODO: error handling + retry policy
             var queueClient = storageAccount.CreateCloudQueueClient();
             var queue = queueClient.GetQueueReference("imageprocess");
-            await queue.CreateIfNotExistsAsync();
+            //await queue.CreateIfNotExistsAsync();
             var message = new CloudQueueMessage(imageId.ToString());
             await queue.AddMessageAsync(message);
         }

@@ -5,6 +5,7 @@ using IrmaProject.Repository.AzureStorage.Model;
 using IrmaProject.Repository.EntityFramework.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,9 +47,45 @@ namespace IrmaProject.ApplicationService
             return album;
         }
 
+        public async Task<Album> FindAlbumByName(string albumName)
+        {
+            return await albumRepository.GetAlbumByName(albumName);
+        }
+
+        public async Task<int> GetAlbumFilesCountById(Guid albumId)
+        {
+            return (await databaseImageRepository.GetImageIdsByAlbumId(albumId)).Count();
+        }
+
         public async Task<IEnumerable<Album>> GetAlbumsByUserId(Guid userId)
         {
             return await albumRepository.GetAlbumsByAccountId(userId);
+        }
+
+        public async Task<IEnumerable<Album>> GetAlbumsByUsername(string username)
+        {
+            var user = await userRepository.FindByUserName(username);
+            return await albumRepository.GetAlbumsByAccountId(user.Id);
+        }
+
+        public async Task<Dictionary<Guid, int>> GetAlbumsFilesCountByIds(IEnumerable<Guid> ids)
+        {
+            var resultDictionary = new Dictionary<Guid, int>();
+            for(int i = 0; i< ids.Count(); i++)
+            {
+                resultDictionary.Add(ids.ElementAt(i), (await databaseImageRepository.GetImageIdsByAlbumId(ids.ElementAt(i))).Count());
+            }
+            return resultDictionary;
+        }
+
+        public async Task<IEnumerable<Image>> GetImagesByAlbumId(Guid albumId)
+        {
+            return await databaseImageRepository.GetImagesByAlbumId(albumId);
+        }
+
+        public async Task<IEnumerable<Image>> GetImagesByAlbumName(string albumName)
+        {
+            return await databaseImageRepository.GetImagesByAlbumId((await albumRepository.GetAlbumByName(albumName)).Id);
         }
 
         public async Task<Uri> UploadImage(Guid albumId, byte[] imageBytes)

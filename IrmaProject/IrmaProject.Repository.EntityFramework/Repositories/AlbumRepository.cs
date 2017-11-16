@@ -26,6 +26,11 @@ namespace IrmaProject.Repository.EntityFramework.Repositories
             return await GetById(albumId);
         }
 
+        public async Task<Album> GetAlbumByName(string name)
+        {
+            return (await FindAll(x => x.Name.Equals(name))).First();
+        }
+
         public async Task<IEnumerable<Album>> GetAlbumsByAccountId(Guid accountId)
         {
             return await FindAll(x => x.Account.Id.Equals(accountId));

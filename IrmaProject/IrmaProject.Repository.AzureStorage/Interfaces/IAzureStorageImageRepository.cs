@@ -1,4 +1,4 @@
-﻿using IrmaProject.Repository.AzureStorage.Model;
+﻿using IrmaProject.Dto.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;

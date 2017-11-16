@@ -1,4 +1,5 @@
 ﻿using IrmaProject.Domain.Entities;
+using IrmaProject.Dto.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,8 +9,9 @@ namespace IrmaProject.ApplicationService.Interfaces
 {
     public interface IImageService
     {
-        Task<Uri> UploadImage(Guid albumId, byte[] imageBytes);
+        Task<ImageUploadResult> UploadImage(Guid albumId, byte[] imageBytes);
         Task<Guid> CreateAlbumWithUserId(Guid userId, string albumName);
+        Task<Guid> AddImage(Image image);
         Task<Album> FindAlbumById(Guid albumId);
         Task<Album> FindAlbumByName(string albumName);
         Task<IEnumerable<Album>> GetAlbumsByUserId(Guid userId);

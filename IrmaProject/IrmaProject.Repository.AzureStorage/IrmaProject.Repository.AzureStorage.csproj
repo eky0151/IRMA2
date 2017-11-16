@@ -8,4 +8,12 @@
     <PackageReference Include="WindowsAzure.Storage" Version="8.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IrmaProject.Dto\IrmaProject.Dto.csproj" />
+  </ItemGroup>
+
 </Project>

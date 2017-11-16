@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace IrmaProject.Repository.AzureStorage.Model
+namespace IrmaProject.Dto.Model
 {
     public class ImageUploadResult
     {

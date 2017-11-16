@@ -1,5 +1,5 @@
-﻿using IrmaProject.Repository.AzureStorage.Interfaces;
-using IrmaProject.Repository.AzureStorage.Model;
+﻿using IrmaProject.Dto.Model;
+using IrmaProject.Repository.AzureStorage.Interfaces;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
 using System;
@@ -25,7 +25,7 @@ namespace IrmaProject.Repository.AzureStorage.Repositories
             var container = blobClient.GetContainerReference("pictures");
             await container.CreateIfNotExistsAsync();
             var fileId = Guid.NewGuid();
-            var blob = container.GetBlockBlobReference(fileId.ToString());
+            var blob = container.GetBlockBlobReference(fileId.ToString() + ".jpg");
             await blob.UploadFromByteArrayAsync(imageBytes, 0, imageBytes.Length);
 
             return new ImageUploadResult
@@ -40,7 +40,7 @@ namespace IrmaProject.Repository.AzureStorage.Repositories
             // TODO: error handling + retry policy
             var queueClient = storageAccount.CreateCloudQueueClient();
             var queue = queueClient.GetQueueReference("imageprocess");
-            //await queue.CreateIfNotExistsAsync();
+            await queue.CreateIfNotExistsAsync();
             var message = new CloudQueueMessage(imageId.ToString());
             await queue.AddMessageAsync(message);
         }

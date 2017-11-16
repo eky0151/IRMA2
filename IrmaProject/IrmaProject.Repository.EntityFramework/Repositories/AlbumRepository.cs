@@ -35,5 +35,14 @@ namespace IrmaProject.Repository.EntityFramework.Repositories
         {
             return await FindAll(x => x.Account.Id.Equals(accountId));
         }
+
+        public async Task<bool> UpdateAlbumModifiedDate(Guid albumId)
+        {
+            var album = (await FindAll(x => x.Id.Equals(albumId))).First();
+            album.UpdatedAt = DateTime.Now;
+            await Update(album);
+            return true;
+             
+        }
     }
 }

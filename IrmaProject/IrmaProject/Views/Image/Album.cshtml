@@ -10,7 +10,7 @@
             <th>Name</th>
             <th>Thumbnail</th>
             <th>Created</th>
-            <th><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadImageModal">Upload</button></th>
+            <td class="text-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadImageModal">Upload</button></td>
         </tr>
     </thead>
     <tbody>
@@ -19,7 +19,7 @@
             <tr>
                 <td>@Model.Images.ElementAt(i).Name</td>
                 <td><img src=@Model.Images.ElementAt(i).Url width="@Model.Images.ElementAt(i).Width" height="@Model.Images.ElementAt(i).Height" /></td>
-                <td>@Model.Images.ElementAt(i).UploadedAt</td>
+                <td colspan="2">@Model.Images.ElementAt(i).UploadedAt</td>
             </tr>
         }
     </tbody>

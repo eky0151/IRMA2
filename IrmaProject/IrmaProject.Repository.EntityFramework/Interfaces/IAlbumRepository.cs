@@ -12,5 +12,6 @@ namespace IrmaProject.Repository.EntityFramework.Interfaces
         Task<Album> GetAlbumById(Guid albumId);
         Task<Album> GetAlbumByName(string name);
         Task<IEnumerable<Album>> GetAlbumsByAccountId(Guid accountId);
+        Task<bool> UpdateAlbumModifiedDate(Guid albumId);
     }
 }

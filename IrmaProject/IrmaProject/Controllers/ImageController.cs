@@ -10,6 +10,7 @@ using System.IO;
 using System.Security.Claims;
 using IrmaProject.Common.Constant;
 using IrmaProject.Models;
+using IrmaProject.Dto.Model;
 
 namespace IrmaProject.Controllers
 {
@@ -33,7 +34,7 @@ namespace IrmaProject.Controllers
         public async Task<IActionResult> UploadMore(Guid albumId, List<IFormFile> files, string imageName)
         {
             var album = await imageService.FindAlbumById(albumId);
-            Uri uploadedImageUri = null;
+            ImageUploadResult uploadedImageUri = null;
             long size = files.Sum(f => f.Length);
 
             foreach (var formFile in files)
@@ -55,15 +56,25 @@ namespace IrmaProject.Controllers
         public async Task<IActionResult> Upload(Guid albumId, IFormFile file, string imageName)
         {
             var album = await imageService.FindAlbumById(albumId);
-            Uri uploadedImageUri = null;
+            ImageUploadResult uploadedImage = null;
             long size = file.Length;
             if (file.Length > 0)
             {
                 using (var ms = new MemoryStream())
                 {
                     file.CopyTo(ms);
-                    uploadedImageUri = await imageService.UploadImage(album.Id, ms.ToArray());
+                    uploadedImage = await imageService.UploadImage(album.Id, ms.ToArray());
                 }
+                await imageService.AddImage(new Domain.Entities.Image()
+                {
+                    Album = await imageService.FindAlbumById(albumId),
+                    BlobImageId = uploadedImage.ImageId,
+                    Height = 100,
+                    Width = 100,
+                    MobileSizeUrl = uploadedImage.ImageUri.ToString(),
+                    Name = imageName,
+                    WebSizeUrl = uploadedImage.ImageUri.ToString()
+                });
             }
             var userNameClaim = User.Claims.FirstOrDefault(c => c.Type.Contains("email"));
             //return Ok(new { count = files.Count, size, uploadedImageUri });
@@ -79,7 +90,7 @@ namespace IrmaProject.Controllers
             viewModel.Images = images.Select(x => new ImageViewModel()
             {
                 Name = x.Name,
-                UploadedAt = x.CreatedAt.DateTime.ToLongDateString(),
+                UploadedAt = x.CreatedAt.DateTime.ToLongDateString() + " " + x.CreatedAt.DateTime.ToShortTimeString(),
                 Url = x.WebSizeUrl,
                 Width = "50",
                 Height = "50"
@@ -103,6 +114,7 @@ namespace IrmaProject.Controllers
                 Name = x.Name,
                 FilesCount = albumsFilesCount.FirstOrDefault(y => y.Key.Equals(x.Id)).Value
             });
+            viewModel.Userid = (await userService.GetUserByName(username)).Id;
             return View(viewModel);
         }
 

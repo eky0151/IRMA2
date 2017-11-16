@@ -44,7 +44,7 @@
                         }
                         else
                         {
-                            <li><a asp-area="" asp-controller="Image" asp-action="Index">My pictures</a></li>
+                            <!--<li><a asp-area="" asp-controller="Image" asp-action="Index">My pictures</a></li>-->
                             <li><a asp-controller="Image" asp-action="@albumsAction" asp-route-username ="@userNameClaim.Value.Replace('@', '_').Replace('.', '_')">My albums</a></li>
                         }
                     }

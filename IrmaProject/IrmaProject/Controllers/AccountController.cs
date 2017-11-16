@@ -32,18 +32,28 @@ namespace IrmaProject.Controllers
             return Challenge(auth, "Facebook");
         }
 
+        public IActionResult LoginGoogle()
+        {
+            var auth = new AuthenticationProperties { RedirectUri = Url.Action("AuthCallback", "Account") };
+            return Challenge(auth, "Google");
+        }
+
         public async Task<IActionResult> AuthCallback()
         {
-            var identity = User.Identities.FirstOrDefault(i => i.AuthenticationType == "Facebook" && i.IsAuthenticated);
-            if (identity == null)
+            var fbIdentity = User.Identities.FirstOrDefault(i => i.AuthenticationType == "Facebook" && i.IsAuthenticated);
+            var googleIdentity = User.Identities.FirstOrDefault(i => i.AuthenticationType == "Google" && i.IsAuthenticated);
+            if (fbIdentity == null && googleIdentity == null)
             {
                 return Redirect(Url.Action("Login", "Account"));
             }
-           
-            var userId = await userService.EnsureUser(identity.Claims.ToList());
-            List<Claim> customClaimList = new List<Claim> { new Claim("UserId", userId.ToString()) };
-            ClaimsIdentity newClaimIdentity = new ClaimsIdentity(customClaimList);
-            User.AddIdentity(newClaimIdentity);
+            if(fbIdentity != null)
+            {
+                await userService.EnsureUser(fbIdentity.Claims.ToList());
+            }
+            if(googleIdentity != null)
+            {
+                await userService.EnsureUser(googleIdentity.Claims.ToList());
+            }
             return Redirect(Url.Action("Index", "Home"));
         }
 

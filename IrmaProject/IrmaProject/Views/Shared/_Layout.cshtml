@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - PicBook</title>
+    <title>@ViewData["Title"] - Irma PicBook project</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -40,7 +40,7 @@
                         @if (!User.Identity.IsAuthenticated)
                         {
                         <li><a asp-area="" asp-controller="Home" asp-action="Register">Register</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Login">Login</a></li>
+                        <!--<li><a asp-area="" asp-controller="Home" asp-action="Login">Login</a></li>-->
                         }
                         else
                         {
@@ -50,13 +50,15 @@
                     }
                 </ul>
                 <ul class="nav navbar-nav pull-right">
+
                     @{  var userClaim = User.Claims.FirstOrDefault(c => c.Type.Contains("givenname"));
                         var userProfileImageClaim = User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier"));
                         var userGivenName = userClaim == null ? "Anonymous" : userClaim.Value;
-                        var userProfileImage = userProfileImageClaim == null ? "" : "https://graph.facebook.com/" +userProfileImageClaim.Value +"/picture?type=small";
+                        var userFacebookProfileImage = userProfileImageClaim == null ? "" : "https://graph.facebook.com/" +userProfileImageClaim.Value +"/picture?type=small";
+                        
                         @if (User.Identity.IsAuthenticated)
                         {
-                             <li><img src="@userProfileImage" /></li>
+                             <li><img src="@userFacebookProfileImage" /></li>
                             <li><a>Hey, @userGivenName</a></li>
                             <li><a href="/Account/Logout">Logout</a></li>
                         }
@@ -76,7 +78,7 @@
   
     <hr/>
     <footer>
-        <p>&copy; 2017 - PicBook</p>
+        <p>&copy; 2017 - Irma PicBook project</p>
     </footer>
 </div>
 

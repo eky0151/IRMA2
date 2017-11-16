@@ -23,9 +23,9 @@ namespace IrmaProject.Repository.EntityFramework.Repositories
             return account.Id;
         }
 
-        public async Task<Account> FindByFacebookIdentifier(string userIdentifier)
+        public async Task<Account> FindBySocialIdentifier(string userIdentifier)
         {
-            var users = await GetByFilter(u => u.FacebookUserId.Equals(userIdentifier));
+            var users = await GetByFilter(u => u.SocialUserId.Equals(userIdentifier));
             if (users.Count() == 0)
                 return null;
             return users.FirstOrDefault();
@@ -53,11 +53,6 @@ namespace IrmaProject.Repository.EntityFramework.Repositories
             if (users.Count() == 0)
                 throw new ArgumentException();
             return users.First();
-        }
-
-        public async Task<string> GetProfilePictureById(Guid accountId, string pictureSizeType)
-        {
-            return (await FindByIdentifier(accountId)).ProfileImageUrl + pictureSizeType;
         }
     }
 }

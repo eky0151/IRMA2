@@ -26,18 +26,17 @@ namespace IrmaProject.ApplicationService
             {
                 throw new ArgumentException();
             }
-            var user = await userRepository.FindByFacebookIdentifier(userIdentifier.Value);
+            var user = await userRepository.FindBySocialIdentifier(userIdentifier.Value);
             if(user == null)
             {
                 var newUserId = await userRepository.CreateUser(new Account
                 {
                     Username = claims.First(x => x.Type == ClaimTypes.Email).Value.Replace('@','_').Replace('.','_').Replace(' ','_'),
-                    FacebookUserId = userIdentifier.Value,
+                    SocialUserId = userIdentifier.Value,
                     Email = claims.First(x => x.Type == ClaimTypes.Email).Value,
                     Name = claims.First(x => x.Type == ClaimTypes.Name).Value,
                     FirstName = claims.First(x => x.Type == ClaimTypes.GivenName).Value,
                     LastName = claims.First(x => x.Type == ClaimTypes.Surname).Value,
-                    ProfileImageUrl = @"https://graph.facebook.com/"+userIdentifier.Value+@"/picture",
                     Deleted = false
                 });
                 return newUserId;
@@ -47,14 +46,20 @@ namespace IrmaProject.ApplicationService
 
         public Account GetAccountByClaimsPrincipal(ClaimsPrincipal userClaimsPrincipal)
         {
-            var identity = userClaimsPrincipal.Identities.FirstOrDefault(i => i.AuthenticationType == "Facebook" && i.IsAuthenticated);
-            if (identity == null)
+            var fbIdentity = userClaimsPrincipal.Identities.FirstOrDefault(i => i.AuthenticationType == "Facebook" && i.IsAuthenticated);
+            var googleIdentity = userClaimsPrincipal.Identities.FirstOrDefault(i => i.AuthenticationType == "Google" && i.IsAuthenticated);
+            Account user = null;
+            if(fbIdentity != null)
             {
-                throw new ArgumentException();
+                var facebookId = fbIdentity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+                user = userRepository.FindBySocialIdentifier(facebookId).Result;
             }
-            var facebookId = identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            var user = userRepository.FindByFacebookIdentifier(facebookId).Result;
-            if(user == null)
+            if(googleIdentity != null)
+            {
+                var googleId = googleIdentity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+                user = userRepository.FindBySocialIdentifier(googleId).Result;
+            }
+            if (user == null)
             {
                 throw new ArgumentException();
             }
@@ -64,12 +69,6 @@ namespace IrmaProject.ApplicationService
           public async Task<Account> GetUserByName(string username)
           {
             return await userRepository.FindByName(username);
-          }
-
-          public string GetProfilPictureById(Guid id, string sizeType)
-          {
-            var pictureUrl = userRepository.GetProfilePictureById(id, sizeType).Result;
-            return pictureUrl;
           }
     }
 }

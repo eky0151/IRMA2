@@ -36,6 +36,7 @@ namespace IrmaProject
             {
                 options.Filters.Add(new RequireHttpsAttribute());
             });
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(o =>
                 {
@@ -50,6 +51,12 @@ namespace IrmaProject
                     o.Fields.Add("name");
                     o.Fields.Add("email");
                     o.SaveTokens = true;
+                })
+                .AddGoogle(o =>
+                {
+                    o.ClientId = Configuration["Authentication:Google:ClientId"];
+                    o.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                    o.Scope.Add("profile");
                 });
 
             services.AddMvc();

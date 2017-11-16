@@ -11,8 +11,6 @@ namespace IrmaProject.ApplicationService.Interfaces
     public interface IUserService
     {
         Task<Account> GetUserByName(string username);
-
-        string GetProfilPictureById(Guid id, string sizeType);
         Task<Guid> EnsureUser(IReadOnlyCollection<Claim> claims);
         Account GetAccountByClaimsPrincipal(ClaimsPrincipal userClaimsPrincipal);
     }

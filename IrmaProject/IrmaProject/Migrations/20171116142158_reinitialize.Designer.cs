@@ -11,7 +11,7 @@ using System;
 namespace IrmaProject.Migrations
 {
     [DbContext(typeof(PicBookDbContext))]
-    [Migration("20171115234743_reinitialize")]
+    [Migration("20171116142158_reinitialize")]
     partial class reinitialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,6 +80,8 @@ namespace IrmaProject.Migrations
 
                     b.Property<string>("Url");
 
+                    b.Property<string>("UrlFriendlyName");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
@@ -115,6 +117,8 @@ namespace IrmaProject.Migrations
                     b.Property<bool>("Public");
 
                     b.Property<DateTimeOffset?>("UpdatedAt");
+
+                    b.Property<string>("UrlFriendlyName");
 
                     b.Property<string>("WebSizeUrl");
 

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace IrmaProject.ApplicationService
@@ -28,6 +29,8 @@ namespace IrmaProject.ApplicationService
 
         public async Task<Guid> AddImage(Image image)
         {
+            image.Deleted = false;
+            image.UrlFriendlyName = Regex.Replace(image.Name, "[^a-zA-Z0-9_]+", "", RegexOptions.Compiled).Replace(" ", String.Empty);
             var guid = await databaseImageRepository.AddImage(image);
             await albumRepository.UpdateAlbumModifiedDate(image.Album.Id);
             return guid;
@@ -39,7 +42,9 @@ namespace IrmaProject.ApplicationService
             var newAlbum = new Album
             {
                 Account = account,
-                Name = albumName
+                Name = albumName,
+                Deleted = false,
+                UrlFriendlyName = Regex.Replace(albumName, "[^a-zA-Z0-9_]+", "", RegexOptions.Compiled).Replace(" ", String.Empty)
             };
             return await albumRepository.CreateAlbum(newAlbum);
         }
@@ -56,7 +61,7 @@ namespace IrmaProject.ApplicationService
 
         public async Task<Album> FindAlbumByName(string albumName)
         {
-            return await albumRepository.GetAlbumByName(albumName);
+            return await albumRepository.GetAlbumByName(albumName.Replace(" ",String.Empty));
         }
 
         public async Task<int> GetAlbumFilesCountById(Guid albumId)
@@ -72,7 +77,8 @@ namespace IrmaProject.ApplicationService
         public async Task<IEnumerable<Album>> GetAlbumsByUsername(string username)
         {
             var user = await userRepository.FindByUserName(username);
-            return await albumRepository.GetAlbumsByAccountId(user.Id);
+            var albums = await albumRepository.GetAlbumsByAccountId(user.Id);
+            return albums;
         }
 
         public async Task<Dictionary<Guid, int>> GetAlbumsFilesCountByIds(IEnumerable<Guid> ids)
@@ -80,7 +86,9 @@ namespace IrmaProject.ApplicationService
             var resultDictionary = new Dictionary<Guid, int>();
             for(int i = 0; i< ids.Count(); i++)
             {
-                resultDictionary.Add(ids.ElementAt(i), (await databaseImageRepository.GetImageIdsByAlbumId(ids.ElementAt(i))).Count());
+                var imageIds = await databaseImageRepository.GetImageIdsByAlbumId(ids.ElementAt(i));
+
+                resultDictionary.Add(ids.ElementAt(i), imageIds.Count());
             }
             return resultDictionary;
         }
@@ -92,7 +100,10 @@ namespace IrmaProject.ApplicationService
 
         public async Task<IEnumerable<Image>> GetImagesByAlbumName(string albumName)
         {
-            return await databaseImageRepository.GetImagesByAlbumId((await albumRepository.GetAlbumByName(albumName)).Id);
+            var friendlyAlbumName = Regex.Replace(albumName, "[^a-zA-Z0-9_]+", "", RegexOptions.Compiled).Replace(" ", String.Empty);
+            var album = (await albumRepository.GetAlbumByName(friendlyAlbumName));
+            var result = await databaseImageRepository.GetImagesByAlbumId(album.Id);
+            return result;
         }
 
         public async Task<ImageUploadResult> UploadImage(Guid albumId, byte[] imageBytes)

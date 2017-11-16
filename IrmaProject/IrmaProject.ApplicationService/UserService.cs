@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using IrmaProject.Domain.Entities;
 using IrmaProject.Common.Constant;
+using System.Text.RegularExpressions;
 
 namespace IrmaProject.ApplicationService
 {
@@ -30,13 +31,14 @@ namespace IrmaProject.ApplicationService
             {
                 var newUserId = await userRepository.CreateUser(new Account
                 {
-                    Username = claims.First(x => x.Type == ClaimTypes.Email).Value.Replace('@','_').Replace('.','_'),
+                    Username = claims.First(x => x.Type == ClaimTypes.Email).Value.Replace('@','_').Replace('.','_').Replace(' ','_'),
                     FacebookUserId = userIdentifier.Value,
                     Email = claims.First(x => x.Type == ClaimTypes.Email).Value,
                     Name = claims.First(x => x.Type == ClaimTypes.Name).Value,
                     FirstName = claims.First(x => x.Type == ClaimTypes.GivenName).Value,
                     LastName = claims.First(x => x.Type == ClaimTypes.Surname).Value,
-                    ProfileImageUrl = @"https://graph.facebook.com/"+userIdentifier.Value+@"/picture"
+                    ProfileImageUrl = @"https://graph.facebook.com/"+userIdentifier.Value+@"/picture",
+                    Deleted = false
                 });
                 return newUserId;
             }

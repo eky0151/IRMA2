@@ -8,6 +8,7 @@ namespace IrmaProject.Models
     public class AlbumViewModel : LayoutViewModel
     {
         public string Name { get; set; }
+        public string UrlFriendlyAlbumName { get; set; }
         public string Description { get; set; }
         public string CreatedAt { get; set; }
         public string ModifiedAt { get; set; }

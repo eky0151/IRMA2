@@ -9,6 +9,7 @@ namespace IrmaProject.Domain.Entities
     {
         public Guid BlobImageId { get; set; }
         public string Name { get; set; }
+        public string UrlFriendlyName { get; set; }
         public string OriginalSizeUrl { get; set; }
         public string WebSizeUrl { get; set; }
         public string MobileSizeUrl { get; set; }

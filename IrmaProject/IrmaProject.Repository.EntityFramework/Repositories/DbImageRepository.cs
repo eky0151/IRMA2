@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using IrmaProject.Repository.EntityFramework.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace IrmaProject.Repository.EntityFramework.Repositories
 {
@@ -23,14 +24,14 @@ namespace IrmaProject.Repository.EntityFramework.Repositories
 
         public async Task<IEnumerable<Guid>> GetImageIdsByAlbumId(Guid albumId)
         {
-            var imageIds = (await FindAll(x => x.Album.Id.Equals(albumId))).Select(x => x.Id);
+            var imageIds = Context.Set<Image>().Include(x => x.Album).Where(x => x.Album.Id == albumId).Select(x => x.Id).ToList();
             return imageIds;
 
         }
 
         public async Task<IEnumerable<Image>> GetImagesByAlbumId(Guid albumId)
         {
-            var images = (await FindAll(x => x.Album.Id.Equals(albumId)));
+            var images = Context.Set<Image>().Include(x => x.Album).Where(x => x.Album.Id == albumId).ToList();
             return images;
         }
     }

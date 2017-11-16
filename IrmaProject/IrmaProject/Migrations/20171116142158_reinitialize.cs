@@ -45,7 +45,8 @@ namespace IrmaProject.Migrations
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UrlFriendlyName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -75,6 +76,7 @@ namespace IrmaProject.Migrations
                     OriginalSizeUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Public = table.Column<bool>(type: "bit", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UrlFriendlyName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     WebSizeUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Width = table.Column<int>(type: "int", nullable: true)
                 },

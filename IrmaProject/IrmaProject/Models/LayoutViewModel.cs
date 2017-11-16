@@ -7,8 +7,6 @@ namespace IrmaProject.Models
 {
     public class LayoutViewModel
     {
-        /*public string UserId { get; set; }
-        public string Username { get; set; }
-        public string ProfilePictureUrl { get; set; }*/
+        public string UrlFriendlyUserName { get; set; }
     }
 }

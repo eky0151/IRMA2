@@ -18,18 +18,17 @@
     @for (int i = 0; i < Model.Albums.Count(); i++)
     {
         {
-            var uname = User.Claims.FirstOrDefault(c => c.Type.Contains("email")).Value;
             var albumLoc = (Url.Action("Album", "Image", new
             {
-                albumname = Model.Albums.ElementAt(i).Name.Replace(" ", "_").Replace("/", "_").Replace(".", "_").Replace(":", "_"),
-                username = uname.Replace('@', '_').Replace('.', '_')
-            }));
+                albumname = Model.Albums.ElementAt(i).UrlFriendlyAlbumName,
+                username = User.Claims.FirstOrDefault(c => c.Type.Contains("email")).Value.Replace('@','_').Replace('.','_')
+        }));
             <tr onclick="location.href = '@albumLoc'">
                 <td>@Model.Albums.ElementAt(i).Name</td>
                 <td>@Model.Albums.ElementAt(i).Description</td>
                 <td>@Model.Albums.ElementAt(i).FilesCount</td>
                 <td>@Model.Albums.ElementAt(i).CreatedAt</td>
-                <td>@Model.Albums.ElementAt(i).ModifiedAt</td>
+                <td colspan="2">@Model.Albums.ElementAt(i).ModifiedAt</td>
             </tr>
         }
     }

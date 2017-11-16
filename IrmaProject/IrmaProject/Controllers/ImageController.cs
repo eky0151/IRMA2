@@ -95,7 +95,8 @@ namespace IrmaProject.Controllers
                 Width = "50",
                 Height = "50"
             });
-            viewModel.AlbumId = (await imageService.FindAlbumByName(albumname)).Id.ToString();
+            var album = (await imageService.FindAlbumByName(albumname));
+            viewModel.AlbumId = album.Id.ToString();
             return View(viewModel);
         }
 
@@ -108,20 +109,23 @@ namespace IrmaProject.Controllers
             ShowAlbumsViewModel viewModel = new ShowAlbumsViewModel();
             viewModel.Albums = albums.Select(x => new AlbumViewModel()
             {
+                UrlFriendlyAlbumName = x.UrlFriendlyName,
                 CreatedAt = x.CreatedAt.DateTime.ToLongDateString(),
                 Description = x.Description,
                 ModifiedAt = x.UpdatedAt == null ? "" : x.UpdatedAt.Value.DateTime.ToLongDateString(),
                 Name = x.Name,
                 FilesCount = albumsFilesCount.FirstOrDefault(y => y.Key.Equals(x.Id)).Value
             });
-            viewModel.Userid = (await userService.GetUserByName(username)).Id;
+            var account = userService.GetAccountByClaimsPrincipal(User);
+            viewModel.Userid = account.Id;
             return View(viewModel);
         }
 
         [HttpPost("CreateAlbum")]
-        public async Task<IActionResult> CreateAlbum(Guid userId)
+        public async Task<IActionResult> CreateAlbum(Guid userId, string albumName)
         {
-            return View();
+            await imageService.CreateAlbumWithUserId(userId, albumName);
+            return RedirectToAction("Albums", new { username = userService.GetAccountByClaimsPrincipal(User).Username });
         }
     }
 }

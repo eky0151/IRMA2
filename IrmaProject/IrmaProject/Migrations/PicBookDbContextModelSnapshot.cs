@@ -79,6 +79,8 @@ namespace IrmaProject.Migrations
 
                     b.Property<string>("Url");
 
+                    b.Property<string>("UrlFriendlyName");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
@@ -114,6 +116,8 @@ namespace IrmaProject.Migrations
                     b.Property<bool>("Public");
 
                     b.Property<DateTimeOffset?>("UpdatedAt");
+
+                    b.Property<string>("UrlFriendlyName");
 
                     b.Property<string>("WebSizeUrl");
 

@@ -23,46 +23,6 @@ namespace IrmaProject.Controllers
             return View();
         }
 
-      //[HttpPost]
-      //[ValidateAntiForgeryToken]
-      //public IActionResult Register(RegistrationModel registrationModel)
-      //{
-      //  if (ModelState.IsValid)
-      //  {
-      //    if (registrationModel.RegirectToLogin)
-      //    { 
-      //        return RedirectToAction("Login");
-      //    }
-      //  }
-
-      //      return View("Error");
-      //  }
-
-        //[HttpGet]
-        //public IActionResult Register()
-        //{
-        //  ViewData["Message"] = "Your application description page.";
-
-        //  return View();
-        //}
-
-        //[HttpGet]
-        //[Route("Login/{username}")]
-        //public IActionResult Login(string userName)
-        //{
-        //    ViewData["Message"] = "Your contact page.";
-
-        //    return View();
-        //}
-
-        //[HttpGet]
-        //public IActionResult Login()
-        //{
-        //  ViewData["Message"] = "Your contact page.";
-
-        //  return View();
-        //}
-
 
     public IActionResult Error()
         {

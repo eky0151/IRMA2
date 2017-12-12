@@ -61,7 +61,7 @@ namespace IrmaProject.Controllers
         {
             var user = userService.GetAccountByClaimsPrincipal(User);
             await imageService.CreateAlbumWithUserId(user.Id, albumName);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Albums", "Image");
         }
 
         [HttpPost("uploadimage")]
@@ -71,7 +71,7 @@ namespace IrmaProject.Controllers
             var albums = await imageService.GetAlbumsByUserId(user.Id);
             var album = albums.FirstOrDefault(x => x.Name.Equals(albumname));
             if (album == null)
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Albums", "Image");
             ImageUploadResult uploadedImage = null;
             long size = file.Length;
             if (file.Length > 0)
@@ -97,7 +97,7 @@ namespace IrmaProject.Controllers
             }
             var userNameClaim = User.Claims.FirstOrDefault(c => c.Type.Contains("email"));
             //return Ok(new { count = files.Count, size, uploadedImageUri });
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Albums", "Image");
         }
     }
 }

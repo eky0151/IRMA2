@@ -34,7 +34,7 @@ namespace IrmaProject
                      });
                  })
                  .UseContentRoot(Directory.GetCurrentDirectory())
-                 .UseIISIntegration()
+                 //.UseIISIntegration()
                  .UseStartup<Startup>()
                  .Build();
 

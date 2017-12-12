@@ -1,57 +1,13 @@
-﻿@model ShowAlbumsViewModel
-@{
+﻿@{
     ViewData["Title"] = "Albums";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section Scripts{
+    <script src="~/ClientApp/dist/inline.bundle.js"></script>
+    <script src="~/ClientApp/dist/polyfills.bundle.js"></script>
+    <script src="~/ClientApp/dist/styles.bundle.js"></script>
+    <script src="~/ClientApp/dist/vendor.bundle.js"></script>
+    <script src="~/ClientApp/dist/main.bundle.js"></script>
+}
+<album-list></album-list>
 
-<table class="table table-striped table-hover">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Files in album</th>
-            <th>Created</th>
-            <th>Last modified</th>
-            <td class="text-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createAlbumModal">New</button></td>
-        </tr>
-    </thead>
-    @for (int i = 0; i < Model.Albums.Count(); i++)
-    {
-        {
-            var albumLoc = (Url.Action("Album", "Image", new
-            {
-                albumname = Model.Albums.ElementAt(i).UrlFriendlyAlbumName,
-                username = User.Claims.FirstOrDefault(c => c.Type.Contains("email")).Value.Replace('@','_').Replace('.','_')
-        }));
-            <tr onclick="location.href = '@albumLoc'">
-                <td>@Model.Albums.ElementAt(i).Name</td>
-                <td>@Model.Albums.ElementAt(i).Description</td>
-                <td>@Model.Albums.ElementAt(i).FilesCount</td>
-                <td>@Model.Albums.ElementAt(i).CreatedAt</td>
-                <td colspan="2">@Model.Albums.ElementAt(i).ModifiedAt</td>
-            </tr>
-        }
-    }
-</table>
-
-<div class="modal fade" id="createAlbumModal" tabindex="-1" role="dialog" aria-labelledby="createAlbumModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form asp-controller="Image" asp-action="CreateAlbum" method="post">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="uploadImageModalLabel">Upload image</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="userId" value="@Model.Userid" />
-                    <label>Album name:</label><input type="text" name="albumName" />
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Create</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>

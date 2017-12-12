@@ -15,6 +15,7 @@ namespace IrmaProject.Domain.Entities
         public string MobileSizeUrl { get; set; }
         public int? Width { get; set; }
         public int? Height { get; set; }
+        public string Tags { get; set; }
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
         public bool Public { get; set; }

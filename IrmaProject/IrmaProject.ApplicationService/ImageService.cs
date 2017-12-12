@@ -3,9 +3,13 @@ using IrmaProject.Domain.Entities;
 using IrmaProject.Dto.Model;
 using IrmaProject.Repository.AzureStorage.Interfaces;
 using IrmaProject.Repository.EntityFramework.Interfaces;
+using Microsoft.ProjectOxford.Vision;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -112,6 +116,18 @@ namespace IrmaProject.ApplicationService
 
            // await azureImageRepository.EnqueueWorkItem(result.ImageId);
             return result;
+        }
+
+        public async Task<IEnumerable<Microsoft.ProjectOxford.Vision.Contract.Tag>> GetVisionData(string url)
+        {
+            string apiroot = "https://westcentralus.api.cognitive.microsoft.com/vision/v1.0";
+            HttpWebRequest imageRequest = (HttpWebRequest)WebRequest.Create(url);
+            WebResponse imageResponse = imageRequest.GetResponse();
+            Stream stream = imageResponse.GetResponseStream();
+            VisionServiceClient visionClient = new VisionServiceClient("68e24843ced045c6bb216eda08ca5e09",apiroot);
+            var features = new VisualFeature[] { VisualFeature.Tags };
+            var analysisResult = await visionClient.GetTagsAsync(stream);
+            return analysisResult.Tags;
         }
     }
 }

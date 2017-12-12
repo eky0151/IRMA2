@@ -13,5 +13,6 @@ namespace IrmaProject.Models
         public string CreatedAt { get; set; }
         public string ModifiedAt { get; set; }
         public int FilesCount { get; set; }
+        public List<ImageViewModel> Images { get; set; } = new List<ImageViewModel>();
     }
 }

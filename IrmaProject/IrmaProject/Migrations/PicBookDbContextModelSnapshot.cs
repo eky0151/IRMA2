@@ -113,6 +113,8 @@ namespace IrmaProject.Migrations
 
                     b.Property<bool>("Public");
 
+                    b.Property<string>("Tags");
+
                     b.Property<DateTimeOffset?>("UpdatedAt");
 
                     b.Property<string>("UrlFriendlyName");

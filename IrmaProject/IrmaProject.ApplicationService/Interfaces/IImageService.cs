@@ -20,5 +20,6 @@ namespace IrmaProject.ApplicationService.Interfaces
         Task<Dictionary<Guid, int>> GetAlbumsFilesCountByIds(IEnumerable<Guid> ids);
         Task<IEnumerable<Image>> GetImagesByAlbumId(Guid albumId);
         Task<IEnumerable<Image>> GetImagesByAlbumName(string albumName);
+        Task<IEnumerable<Microsoft.ProjectOxford.Vision.Contract.Tag>> GetVisionData(string url);
     }
 }

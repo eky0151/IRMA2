@@ -39,7 +39,7 @@ namespace IrmaProject.Repository.EntityFramework.Repositories
 
         public async Task<IEnumerable<Album>> GetAlbumsByAccountId(Guid accountId)
         {
-            var albums = Context.Set<Album>().Include(x => x.Account).ToList();
+            var albums = Context.Set<Album>().Include(x => x.Account).Include(x => x.Image).ToList();
             var album = albums.Where(x => x.Account.Id.Equals(accountId)).ToList();
             return album;
         }

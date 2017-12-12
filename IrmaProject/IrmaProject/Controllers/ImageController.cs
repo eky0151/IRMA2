@@ -11,6 +11,7 @@ using System.Security.Claims;
 using IrmaProject.Common.Constant;
 using IrmaProject.Models;
 using IrmaProject.Dto.Model;
+using Microsoft.ProjectOxford.Vision.Contract;
 
 namespace IrmaProject.Controllers
 {
@@ -65,7 +66,7 @@ namespace IrmaProject.Controllers
                     file.CopyTo(ms);
                     uploadedImage = await imageService.UploadImage(album.Id, ms.ToArray());
                 }
-                await imageService.AddImage(new Domain.Entities.Image()
+                var newImage = new Domain.Entities.Image()
                 {
                     Album = await imageService.FindAlbumById(albumId),
                     BlobImageId = uploadedImage.ImageId,
@@ -74,7 +75,10 @@ namespace IrmaProject.Controllers
                     MobileSizeUrl = uploadedImage.ImageUri.ToString(),
                     Name = imageName,
                     WebSizeUrl = uploadedImage.ImageUri.ToString()
-                });
+                };
+                IEnumerable<Tag> tags = await imageService.GetVisionData(newImage.WebSizeUrl);
+                newImage.Tags = String.Join(",", tags.Select(x => x.Name));
+                await imageService.AddImage(newImage);
             }
             var userNameClaim = User.Claims.FirstOrDefault(c => c.Type.Contains("email"));
             //return Ok(new { count = files.Count, size, uploadedImageUri });
@@ -85,6 +89,7 @@ namespace IrmaProject.Controllers
         [Route("{username}/Album/{albumname}")]
         public async Task<IActionResult> Album(string username, string albumname)
         {
+            //TODO uservalidate
             var images = await imageService.GetImagesByAlbumName(albumname);
             ShowImagesViewModel viewModel = new ShowImagesViewModel();
             viewModel.Images = images.Select(x => new ImageViewModel()
@@ -92,8 +97,8 @@ namespace IrmaProject.Controllers
                 Name = x.Name,
                 UploadedAt = x.CreatedAt.DateTime.ToLongDateString() + " " + x.CreatedAt.DateTime.ToShortTimeString(),
                 Url = x.WebSizeUrl,
-                Width = "50",
-                Height = "50"
+                Width = 50,
+                Height = 50
             });
             var album = (await imageService.FindAlbumByName(albumname));
             viewModel.AlbumId = album.Id.ToString();
@@ -104,28 +109,22 @@ namespace IrmaProject.Controllers
         [Route("{username}/Albums")]
         public async Task<IActionResult> Albums(string username)
         {
-            var albums = await imageService.GetAlbumsByUsername(username);
-            var albumsFilesCount = await imageService.GetAlbumsFilesCountByIds(albums.Select(x => x.Id));
-            ShowAlbumsViewModel viewModel = new ShowAlbumsViewModel();
-            viewModel.Albums = albums.Select(x => new AlbumViewModel()
-            {
-                UrlFriendlyAlbumName = x.UrlFriendlyName,
-                CreatedAt = x.CreatedAt.DateTime.ToLongDateString(),
-                Description = x.Description,
-                ModifiedAt = x.UpdatedAt == null ? "" : x.UpdatedAt.Value.DateTime.ToLongDateString(),
-                Name = x.Name,
-                FilesCount = albumsFilesCount.FirstOrDefault(y => y.Key.Equals(x.Id)).Value
-            });
-            var account = userService.GetAccountByClaimsPrincipal(User);
-            viewModel.Userid = account.Id;
-            return View(viewModel);
+            return View();
         }
 
         [HttpPost("CreateAlbum")]
-        public async Task<IActionResult> CreateAlbum(Guid userId, string albumName)
+        public async Task<IActionResult> CreateAlbum(string username, string albumName)
         {
-            await imageService.CreateAlbumWithUserId(userId, albumName);
+            var user = await userService.GetUserByName(username);
+            await imageService.CreateAlbumWithUserId(user.Id, albumName);
             return RedirectToAction("Albums", new { username = userService.GetAccountByClaimsPrincipal(User).Username });
+        }
+
+        [HttpGet]
+        [Route("{username}/Image/{imageName}")]
+        public async Task<IActionResult> ShowImage(string username, string imageName)
+        {
+            return View();
         }
     }
 }

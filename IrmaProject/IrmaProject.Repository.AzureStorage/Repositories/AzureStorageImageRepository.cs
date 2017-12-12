@@ -44,6 +44,5 @@ namespace IrmaProject.Repository.AzureStorage.Repositories
             var message = new CloudQueueMessage(imageId.ToString());
             await queue.AddMessageAsync(message);
         }
-
     }
 }

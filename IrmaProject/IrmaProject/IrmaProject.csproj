@@ -2,7 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TypeScriptToolsVersion>2.6</TypeScriptToolsVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\app\albumlist\albumlist.component.ts" />
+    <None Remove="ClientApp\app\shared\dataService.ts" />
+    <None Remove="ClientApp\app\shared\models\album.ts" />
+    <None Remove="ClientApp\app\shared\models\image.ts" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
@@ -24,6 +32,18 @@
     <ProjectReference Include="..\IrmaProject.ApplicationService\IrmaProject.ApplicationService.csproj" />
     <ProjectReference Include="..\IrmaProject.Dto\IrmaProject.Dto.csproj" />
     <ProjectReference Include="..\IrmaProject.Repository.EntityFramework\IrmaProject.Repository.EntityFramework.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\app\login\" />
+    <Folder Include="ClientApp\app\imagelist\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\app\albumlist\albumlist.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\shared\dataService.ts" />
+    <TypeScriptCompile Include="ClientApp\app\shared\models\album.ts" />
+    <TypeScriptCompile Include="ClientApp\app\shared\models\image.ts" />
   </ItemGroup>
 
 </Project>

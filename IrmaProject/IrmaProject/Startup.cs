@@ -36,7 +36,6 @@ namespace IrmaProject
             {
                 options.Filters.Add(new RequireHttpsAttribute());
             });
-
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(o =>
                 {
